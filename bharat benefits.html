@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welfare Schemes Eligibility Checker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      background-color: darkkhaki;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f0f2f5;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    input[type="number"] {
+      padding: 8px;
+      width: 250px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 18px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .scheme {
+      background: #ffffff;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .scheme h3 {
+      margin: 0 0 10px;
+      color: #007BFF;
+    }
+    .scheme a {
+      color: #0069d9;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .scheme a:hover {
+      text-decoration: underline;
+    }
+    #applyButton {
+      display: none;
+      margin-top: 20px;
+      background-color: #28a745;
+    }
+    #applyButton:hover {
+      background-color: #1e7e34;
+    }
+  </style>
+</head>
+<body>
+<center>
+  <h1>Check Your Eligibility for Welfare Schemes</h1>
+  <p>Enter your annual family income (in ₹):</p>
+  <input type="number" id="incomeInput" placeholder="e.g. 250000">
+  <br>
+  <button onclick="filterSchemes()">Show Eligible Schemes</button>
+
+  <div id="schemes-container"></div>
+  <center><button id="applyButton" onclick="openForm()">THANKYOU FOR VISITING </button></center>
+  <script>
+    const schemes = [
+      {
+        name: "PM Awas Yojana",
+        description: "Affordable housing for urban and rural poor.",
+        link: "https://pmaymis.gov.in/",
+        incomeLimit: 300000
+      },
+      {
+        name: "Ayushman Bharat Yojana",
+        description: "Health insurance up to ₹5 lakhs for poor families.",
+        link: "https://pmjay.gov.in/",
+        incomeLimit: 300000
+      },
+      {
+        name: "PM Ujjwala Yojana",
+        description: "Free LPG connection for BPL families.",
+        link: "https://www.pmuy.gov.in/",
+        incomeLimit: 300000
+      },
+      {
+        name: "NSAP Pension Scheme",
+        description: "Pensions for elderly, widows, and disabled under BPL.",
+        link: "https://nsap.nic.in/",
+        incomeLimit: 300000
+      },
+      {
+        name: "PM Jan Dhan Yojana",
+        description: "Basic bank accounts for the poor.",
+        link: "https://pmjdy.gov.in/",
+        incomeLimit: 300000
+      },
+      {
+        name: "Antyodaya Anna Yojana",
+        description: "Subsidized food grains to the poorest households.",
+        link: "https://dfpd.gov.in/aay.htm",
+        incomeLimit: 250000
+      },
+      {
+        name: "MGNREGA",
+        description: "100 days employment to rural poor households.",
+        link: "https://nrega.nic.in/",
+        incomeLimit: 300000
+      },
+      {
+        name: "National Family Benefit Scheme",
+        description: "₹20,000 to BPL family on death of breadwinner.",
+        link: "https://nsap.nic.in/Guidelines/nfbs.htm",
+        incomeLimit: 300000
+      },
+      {
+        name: "PM Garib Kalyan Anna Yojana",
+        description: "Free ration support to poor families during emergencies.",
+        link: "https://dfpd.gov.in/pdps-schemes.htm",
+        incomeLimit: 300000
+      }
+    ];
+    function filterSchemes() {
+      const income = parseInt(document.getElementById("incomeInput").value);
+      const container = document.getElementById("schemes-container");
+      const applyBtn = document.getElementById("applyButton");
+      container.innerHTML = "";
+      applyBtn.style.display = "none";
+
+      if (isNaN(income)) {
+        container.innerHTML = "<p>Please enter a valid income amount.</p>";
+        return;
+      }
+
+      const eligibleSchemes = schemes.filter(s => income <= s.incomeLimit);
+
+      if (eligibleSchemes.length === 0) {
+        container.innerHTML = "<p>No schemes available for this income level.</p>";
+        return;
+      }
+
+      eligibleSchemes.forEach(scheme => {
+        const div = document.createElement("div");
+        div.className = "scheme";
+        div.innerHTML = `
+          <h3>${scheme.name}</h3>
+          <p>${scheme.description}</p>
+          <a href="${scheme.link}" target="_blank">Apply / Learn More</a>
+        `;
+        container.appendChild(div);
+      });
+
+      applyBtn.style.display = "inline-block";
+    }
+
+    function openForm() {
+      window.open(formLink, "_blank");
+    }
+  </script>
+</center>
+</body>
+</html>
